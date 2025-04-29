@@ -1,5 +1,4 @@
-# gator
-gator is a RSS feed aggregator
+# gator - gator is a RSS feed aggregator
 ## MVP
 - Add RSS feeds from across the internet to be collected
 - Store the collected posts in a PostgreSQL database
