@@ -7,13 +7,18 @@ import (
 	"os"
 )
 
+const DBFileName = ".gatorconfig.json"
+var dbPath = ""
+
 type Config struct {
-	DbURL string `json:"db_url"`
-	UserName string `json="current_user_name"`
+	DBURL    string `json:"db_url"`
+	UserName string `json:"current_user_name"`
 }
 
-func NewConfig(dbURL string) (*Config, error) {
-	dbLocation, err := getConfigPath(dbURL)
+func Read() (*Config, error) {
+	dbLocation, err := getConfigPath()
+
+
 	if err != nil {
 		return nil, err
 	}
@@ -32,16 +37,35 @@ func NewConfig(dbURL string) (*Config, error) {
 	var cfg *Config
 	json.Unmarshal(byteValue, &cfg)
 
-	fmt.Println(cfg.DbURL)
-
 	return cfg, nil
 }
 
-func getConfigPath(dbURL string) (string, error) {
+func (config *Config) SetUser(userName string) error {
+	config.UserName = userName
+	return write(config)
+}
+
+func write(config *Config) error {
+	data, err := json.Marshal(config)
+	if err != nil {
+		return nil
+	}
+
+	err = os.WriteFile(dbPath, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func getConfigPath() (string, error) {
 	dir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
 
-	return fmt.Sprintf("%s/%s", dir, dbURL), nil
+	location := fmt.Sprintf("%s/%s", dir, DBFileName)
+	dbPath = location
+	return location, nil
 }
