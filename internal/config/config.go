@@ -8,6 +8,7 @@ import (
 )
 
 const DBFileName = ".gatorconfig.json"
+
 var dbPath = ""
 
 type Config struct {
@@ -49,7 +50,7 @@ func write(config *Config) error {
 	if err != nil {
 		return nil
 	}
-	
+
 	err = os.WriteFile(dbPath, data, 0644)
 	if err != nil {
 		return err
