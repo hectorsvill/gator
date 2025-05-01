@@ -18,7 +18,6 @@ type Config struct {
 func Read() (*Config, error) {
 	dbLocation, err := getConfigPath()
 
-
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +49,7 @@ func write(config *Config) error {
 	if err != nil {
 		return nil
 	}
-
+	
 	err = os.WriteFile(dbPath, data, 0644)
 	if err != nil {
 		return err
