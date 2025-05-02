@@ -9,8 +9,8 @@
 - query and migrate a database (using sqlc and goose, two lightweight tools for typesafe SQL in Go)
 - write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
 
-# postgresql (mac)
-#### install 
+# [postgresql](https://www.postgresql.org/docs) (mac)
+- install 
 ```bash
 # install
 brew install postgresql@15
@@ -25,7 +25,7 @@ psql --version
 psql postgres
 ```
 
-#### create table 
+- create table 
 ```bash
 # enter psql shell
 psql postgres
@@ -37,6 +37,32 @@ postgres=# \c gator
 gator=# SELECT version();
 ```
 
-
-
-
+#### goose 
+```bash
+# install goose
+go install github.com/pressly/goose/v3/cmd/goose@latest
+#check version
+goose -version
+```
+#### create a users migration 
+- create sql file 
+```bash  
+sql/schema/001_users.sql
+```
+- create uuid extention for 3p lib uuid-ossp
+```bash
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+- add migragtion code to file
+```sql
+-- +goose Up
+CREATE TABLE users (
+    id: uuid DEFAULT uuid_generate_v4 (),
+    created_at: TIMESTAMP,
+    updated_at: TIMESTAMP,
+    name: VARCHAR NOT NULL,
+    PRIMARY KEY (id),
+)
+-- +goose Down
+DROP TABLE users;
+```
