@@ -86,5 +86,5 @@ psql gator
 
 - update config with
 ```json
-{"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable","current_user_name":"boots"}
+{"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable"}
 ```
