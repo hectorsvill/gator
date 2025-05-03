@@ -123,3 +123,4 @@ RETURNING *;
 ```bash
 sqlc generate
 ```
+
