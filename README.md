@@ -123,7 +123,6 @@ RETURNING *;
 ```bash
 sqlc generate
 ```
-
 - import postgresql drivers
 ```bash
 go get github.com/lib/pq
