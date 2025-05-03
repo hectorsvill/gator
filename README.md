@@ -56,13 +56,26 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 - add migragtion code to file
 ```sql
 -- +goose Up
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE users (
-    id: uuid DEFAULT uuid_generate_v4 (),
-    created_at: TIMESTAMP,
-    updated_at: TIMESTAMP,
-    name: VARCHAR NOT NULL,
-    PRIMARY KEY (id),
-)
+    id uuid DEFAULT uuid_generate_v4(),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
 -- +goose Down
 DROP TABLE users;
 ```
+- connection string
+```bash
+psql "postgres://<user name>:@localhost:5432/gator"
+```
+- run up migration
+```
+goose postgres <connection_string> up
+```
+
+
