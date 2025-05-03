@@ -73,9 +73,18 @@ DROP TABLE users;
 ```bash
 psql "postgres://<user name>:@localhost:5432/gator"
 ```
-- run up migration
+- run migrations
 ```
 goose postgres <connection_string> up
+goose postgres <connection_string> down
+```
+- view 
+```bash
+psql gator
+\dt
 ```
 
-
+- update config with
+```json
+{"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable","current_user_name":"boots"}
+```
