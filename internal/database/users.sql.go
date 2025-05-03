@@ -63,3 +63,4 @@ func (q *Queries) GetUser(ctx context.Context, id uuid.UUID) (User, error) {
 	)
 	return i, err
 }
+
