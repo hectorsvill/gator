@@ -88,3 +88,38 @@ psql gator
 ```json
 {"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable"}
 ```
+
+# [sqlc](https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html)
+
+```bash 
+# install 
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+go get github.com/google/uuid
+```
+# touch sqlc.yaml
+```yaml
+version: "2"
+sql:
+  - schema: "sql/schema"
+    queries: "sql/queries"
+    engine: "postgresql"
+    gen:
+      go:
+        out: "internal/database"
+```
+- add sql query to sql/queries
+```sql
+-- name: CreateUser :one
+INSERT INTO users (id, created_at, updated_at, name)
+VALUES (
+    $1,
+    $2,
+    $3,
+    $4
+)
+RETURNING *;
+```
+- generate code in internal database
+```bash
+sqlc generate
+```
