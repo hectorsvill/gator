@@ -31,8 +31,8 @@ func handlerRegister(s *state, cmd command) error {
 		return fmt.Errorf("couldn't set current user: %w", err)
 	}
 
-	fmt.Println("User created successfully:")
-	printUser(user)
+	// fmt.Println("User created successfully:")
+	// printUser(user)
 	return nil
 }
 
@@ -52,11 +52,11 @@ func handlerLogin(s *state, cmd command) error {
 		return fmt.Errorf("couldn't set current user: %w", err)
 	}
 
-	fmt.Println("User switched successfully!")
+	// fmt.Println("User switched successfully!")
 	return nil
 }
 
-func printUser(user database.User) {
-	fmt.Printf(" * ID:      %v\n", user.ID)
-	fmt.Printf(" * Name:    %v\n", user.Name)
-}
+// func printUser(user database.User) {
+// 	fmt.Printf(" * ID:      %v\n", user.ID)
+// 	fmt.Printf(" * Name:    %v\n", user.Name)
+// }

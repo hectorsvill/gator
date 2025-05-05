@@ -52,5 +52,7 @@ func main() {
 	err = cmds.run(programState, command{Name: cmdName, Args: cmdArgs})
 	if err != nil {
 		log.Print(err)
+		os.Exit(1)
 	}
+	os.Exit(0)
 }
