@@ -1,12 +1,11 @@
 -- +goose Up
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users (
-    id uuid DEFAULT uuid_generate_v4(),
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
+    id UUID PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    name VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- +goose Down
