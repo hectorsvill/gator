@@ -74,3 +74,20 @@ func handlerDeleteAll(s *state, cmd command) error {
 	}
 	return nil
 }
+
+func handlerGetUsers(s *state, cmd command) error {
+	users, err := s.db.GetAllUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't get users: %w", err)
+	}
+
+	for _, user := range users {
+		currentStr := ""
+		if (s.cfg.UserName == user.Name) {
+			currentStr = "(current)"
+		}
+		fmt.Printf("* %s %s\n", user.Name, currentStr)
+	}
+
+	return nil
+}
