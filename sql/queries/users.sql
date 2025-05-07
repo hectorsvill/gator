@@ -1,5 +1,5 @@
 -- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, name)
+INSERT INTO gator.users (id, created_at, updated_at, name)
 VALUES (
     $1,
     $2,
@@ -9,12 +9,12 @@ VALUES (
 RETURNING *;
 
 -- name: GetUser :one
-SELECT * FROM users
+SELECT * FROM gator.users
 WHERE name = $1 LIMIT 1;
 
 -- name: DeleteUsers :exec
-DELETE FROM users;
+DELETE FROM gator.users;
 
 -- name: GetAllUsers :many
-SELECT * FROM users;
+SELECT * FROM gator.users;
 
