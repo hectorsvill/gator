@@ -4,12 +4,11 @@
 - Store the collected posts in a PostgreSQL database
 - Follow and unfollow RSS feeds that other users have added
 - View summaries of the aggregated posts in the terminal, with a link to the full post
-## 
 - integrate a Go application with a PostgreSQL database
 - query and migrate a database (using sqlc and goose, two lightweight tools for typesafe SQL in Go)
 - write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
 
-# [postgresql](https://www.postgresql.org/docs) (mac)
+## [postgresql](https://www.postgresql.org/docs) (mac)
 - install 
 ```bash
 # install
@@ -37,14 +36,14 @@ postgres=# \c gator
 gator=# SELECT version();
 ```
 
-#### goose 
+## [goose](https://github.com/pressly/goose) setup 
 ```bash
 # install goose
 go install github.com/pressly/goose/v3/cmd/goose@latest
 #check version
 goose -version
 ```
-#### create a users migration 
+##### create a users migration 
 - create sql file 
 ```bash  
 sql/schema/001_gator.sql
@@ -95,14 +94,14 @@ psql gator
 {"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable"}
 ```
 
-# [sqlc](https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html)
+## [sqlc](https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html)
 
 ```bash 
 # install 
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 go get github.com/google/uuid
 ```
-# touch sqlc.yaml
+#### touch sqlc.yaml
 ```yaml
 version: "2"
 sql:
