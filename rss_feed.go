@@ -3,14 +3,10 @@ package main
 import (
 	"context"
 	"encoding/xml"
-	"fmt"
 	"html"
 	"io"
 	"net/http"
 	"time"
-
-	"github.com/google/uuid"
-	"github.com/hectorsvill/gator/internal/database"
 )
 
 type RSSFeed struct {

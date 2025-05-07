@@ -10,9 +10,8 @@ VALUES (
 )
 RETURNING *;
 
--- name: GetFeed :one
-SELECT * FROM gator.feeds
-WHERE url = $1 LIMIT 1;
+-- name: GetFeedNameUrlUser :many
+SELECT name, url, user_id FROM gator.feeds;
 
 -- name: DeleteFeeds :exec
 DELETE FROM gator.feeds;

@@ -47,3 +47,21 @@ func handlerAddFeed(s *state, cmd command) error {
 
 	return nil
 }
+
+func handlerGetFeeds(s *state, cmd command) error {
+	feeds, err := s.db.GetFeedNameUrlUser(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't get users: %w", err)
+	}
+	for _, feed := range feeds {
+		user, err := s.db.GetUserWithID(context.Background(), feed.UserID)
+		if err != nil {
+			return fmt.Errorf("couldnt find user when getting feeds")
+		}
+
+		fmt.Printf("* %s\n", feed.Name)
+		fmt.Printf("* %s\n", feed.Url)
+		fmt.Printf("* %s\n ", user.Name)
+	}
+	return nil
+}

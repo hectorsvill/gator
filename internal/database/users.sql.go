@@ -116,3 +116,20 @@ func (q *Queries) GetUser(ctx context.Context, name string) (GatorUser, error) {
 	)
 	return i, err
 }
+
+const getUserWithID = `-- name: GetUserWithID :one
+SELECT id, created_at, updated_at, name FROM gator.users
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserWithID(ctx context.Context, id uuid.UUID) (GatorUser, error) {
+	row := q.db.QueryRowContext(ctx, getUserWithID, id)
+	var i GatorUser
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+	)
+	return i, err
+}
