@@ -88,6 +88,18 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]GatorUser, error) {
 	return items, nil
 }
 
+const getID = `-- name: GetID :one
+SELECT id FROM gator.users
+WHERE name = $1 LIMIT 1
+`
+
+func (q *Queries) GetID(ctx context.Context, name string) (uuid.UUID, error) {
+	row := q.db.QueryRowContext(ctx, getID, name)
+	var id uuid.UUID
+	err := row.Scan(&id)
+	return id, err
+}
+
 const getUser = `-- name: GetUser :one
 SELECT id, created_at, updated_at, name FROM gator.users
 WHERE name = $1 LIMIT 1

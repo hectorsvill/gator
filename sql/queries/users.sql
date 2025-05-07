@@ -12,6 +12,10 @@ RETURNING *;
 SELECT * FROM gator.users
 WHERE name = $1 LIMIT 1;
 
+-- name: GetID :one
+SELECT id FROM gator.users
+WHERE name = $1 LIMIT 1;
+
 -- name: DeleteUsers :exec
 DELETE FROM gator.users;
 

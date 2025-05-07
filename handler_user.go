@@ -61,7 +61,6 @@ func handlerLogin(s *state, cmd command) error {
 // 	fmt.Printf(" * Name:    %v\n", user.Name)
 // }
 
-
 func handlerDeleteAll(s *state, cmd command) error {
 	err := s.db.DeleteUsers(context.Background())
 	if err != nil {
@@ -83,7 +82,7 @@ func handlerGetUsers(s *state, cmd command) error {
 
 	for _, user := range users {
 		currentStr := ""
-		if (s.cfg.UserName == user.Name) {
+		if s.cfg.UserName == user.Name {
 			currentStr = "(current)"
 		}
 		fmt.Printf("* %s %s\n", user.Name, currentStr)
