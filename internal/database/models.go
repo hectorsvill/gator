@@ -10,7 +10,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type User struct {
+type GatorFeed struct {
+	ID        uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string
+	Url       string
+	UserID    uuid.UUID
+}
+
+type GatorUser struct {
 	ID        uuid.UUID
 	CreatedAt time.Time
 	UpdatedAt time.Time

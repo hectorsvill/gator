@@ -13,7 +13,7 @@ import (
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, name)
+INSERT INTO gator.users (id, created_at, updated_at, name)
 VALUES (
     $1,
     $2,
@@ -30,14 +30,14 @@ type CreateUserParams struct {
 	Name      string
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (GatorUser, error) {
 	row := q.db.QueryRowContext(ctx, createUser,
 		arg.ID,
 		arg.CreatedAt,
 		arg.UpdatedAt,
 		arg.Name,
 	)
-	var i User
+	var i GatorUser
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
@@ -48,7 +48,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 }
 
 const deleteUsers = `-- name: DeleteUsers :exec
-DELETE FROM users
+DELETE FROM gator.users
 `
 
 func (q *Queries) DeleteUsers(ctx context.Context) error {
@@ -57,18 +57,18 @@ func (q *Queries) DeleteUsers(ctx context.Context) error {
 }
 
 const getAllUsers = `-- name: GetAllUsers :many
-SELECT id, created_at, updated_at, name FROM users
+SELECT id, created_at, updated_at, name FROM gator.users
 `
 
-func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
+func (q *Queries) GetAllUsers(ctx context.Context) ([]GatorUser, error) {
 	rows, err := q.db.QueryContext(ctx, getAllUsers)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []User
+	var items []GatorUser
 	for rows.Next() {
-		var i User
+		var i GatorUser
 		if err := rows.Scan(
 			&i.ID,
 			&i.CreatedAt,
@@ -89,13 +89,13 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, created_at, updated_at, name FROM users
+SELECT id, created_at, updated_at, name FROM gator.users
 WHERE name = $1 LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context, name string) (User, error) {
+func (q *Queries) GetUser(ctx context.Context, name string) (GatorUser, error) {
 	row := q.db.QueryRowContext(ctx, getUser, name)
-	var i User
+	var i GatorUser
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
