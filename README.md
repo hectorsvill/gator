@@ -114,17 +114,7 @@ sql:
         out: "internal/database"
 ```
 - add sql query to sql/queries
-```sql
--- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, name)
-VALUES (
-    $1,
-    $2,
-    $3,
-    $4
-)
-RETURNING *;
-```
+
 - generate code in internal database
 ```bash
 sqlc generate
