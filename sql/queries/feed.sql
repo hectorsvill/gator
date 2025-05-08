@@ -18,3 +18,8 @@ DELETE FROM gator.feeds;
 
 -- name: GetAllFeedNames :many
 SELECT name FROM gator.feeds;
+
+-- name: GetFeedByURL :one
+SELECT * FROM gator.feeds
+WHERE url = $1;
+
