@@ -19,6 +19,14 @@ type GatorFeed struct {
 	UserID    uuid.UUID
 }
 
+type GatorFeedFollow struct {
+	ID        uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	UserID    uuid.UUID
+	FeedID    uuid.UUID
+}
+
 type GatorUser struct {
 	ID        uuid.UUID
 	CreatedAt time.Time

@@ -91,6 +91,25 @@ func (q *Queries) GetAllFeedNames(ctx context.Context) ([]string, error) {
 	return items, nil
 }
 
+const getFeedByURL = `-- name: GetFeedByURL :one
+SELECT id, created_at, updated_at, name, url, user_id FROM gator.feeds
+WHERE url = $1
+`
+
+func (q *Queries) GetFeedByURL(ctx context.Context, url string) (GatorFeed, error) {
+	row := q.db.QueryRowContext(ctx, getFeedByURL, url)
+	var i GatorFeed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.Url,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const getFeedNameUrlUser = `-- name: GetFeedNameUrlUser :many
 SELECT name, url, user_id FROM gator.feeds
 `
