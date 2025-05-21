@@ -69,6 +69,8 @@ CREATE TABLE gator.feeds (
     user_id UUID NOT NULL UNIQUE REFERENCES gator.users (id) ON DELETE CASCADE
 );
 
+
+
 -- +goose Down
 DROP TABLE users;
 DROP TABLE feeds;

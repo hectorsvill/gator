@@ -15,11 +15,11 @@ INNER JOIN gator.users ON inserted_feed_follow.user_id = gator.users.id;
 
 
 -- name: GetFeedFollowsForUser :many
-SELECT 
+SELECT
     gator.feed_follows.feed_id,
     gator.feed_follows.user_id,
     gator.feed_follows.created_at,
-    gator.feeds.name AS feed_name, 
+    gator.feeds.name AS feed_name,
     gator.users.name AS user_name
 FROM gator.feed_follows
 INNER JOIN gator.feeds ON gator.feed_follows.feed_id = gator.feeds.id
