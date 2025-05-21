@@ -38,8 +38,8 @@ func main() {
 		registeredCommands: make(map[string]func(*state, command) error),
 	}
 
-	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
+	cmds.register("login", handlerLogin)
 	cmds.register("reset", handlerDeleteAll)
 	cmds.register("users", handlerGetUsers)
 	cmds.register("agg", handlerAgg)
@@ -61,5 +61,6 @@ func main() {
 		log.Print(err)
 		os.Exit(1)
 	}
+	
 	os.Exit(0)
 }

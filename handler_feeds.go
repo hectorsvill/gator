@@ -95,6 +95,6 @@ func printFeed(feed database.GatorFeed, user database.GatorUser) {
 	fmt.Printf("* Updated: %v\n", feed.UpdatedAt)
 	fmt.Printf("* Name: %s\n", feed.Name)
 	fmt.Printf("* URL: %s\n", feed.Url)
-	fmt.Printf("* User: %s\n", feed.Name)
-	
+	fmt.Printf("* User: %s\n", user.Name)
+
 }
