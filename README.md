@@ -48,38 +48,11 @@ goose -version
 ```bash  
 sql/schema/001_gator.sql
 ```
-- add migragtion code to file
-```sql
--- +goose Up
-CREATE SCHEMA gator;
+- add migragtion code to files
+* [001_gator.sql](https://github.com/hectorsvill/gator/blob/main/sql/schema/001_gator.sql)
+* [002_feeds.sql](https://github.com/hectorsvill/gator/blob/main/sql/schema/002_feeds.sql)
+* [003_feed_follows.sql](https://github.com/hectorsvill/gator/blob/main/sql/schema/003_feed_follows.sql)
 
-CREATE TABLE gator.users (
-    id UUID PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    name VARCHAR(50) NOT NULL UNIQUE
-);
-
-CREATE TABLE gator.feeds (
-    id UUID PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    url VARCHAR(50) NOT NULL UNIQUE,
-    user_id UUID NOT NULL UNIQUE REFERENCES gator.users (id) ON DELETE CASCADE
-);
-
-
-
--- +goose Down
-DROP TABLE users;
-DROP TABLE feeds;
-
-```
-- connection string
-```bash
-psql "postgres://<user name>:@localhost:5432/gator"
-```
 - run migrations
 ```
 goose postgres <connection_string> up
