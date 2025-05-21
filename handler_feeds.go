@@ -19,18 +19,13 @@ func handlerAgg(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.GatorUser) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %v <name> <url>", cmd.Name)
 	}
 
 	name := cmd.Args[0]
 	url := cmd.Args[1]
-
-	user, err := s.db.GetUser(context.Background(), s.cfg.UserName)
-	if err != nil {
-		return err
-	}
 
 	id, err := s.db.GetID(context.Background(), s.cfg.UserName)
 	if err != nil {

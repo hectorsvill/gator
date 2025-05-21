@@ -9,12 +9,7 @@ import (
 	"github.com/hectorsvill/gator/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
-	user, err := s.db.GetUser(context.Background(), s.cfg.UserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user: %w", err)
-	}
-
+func handlerFollow(s *state, cmd command, user database.GatorUser) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %v <name> <url>", cmd.Name)
 	}
@@ -23,7 +18,7 @@ func handlerFollow(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("couldn't get feed with url: %w", err)
 	}
-
+	
 	ffrow, err := s.db.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
@@ -41,12 +36,7 @@ func handlerFollow(s *state, cmd command) error {
 	return nil
 }
 
-func handlerListFeedFollows(s *state, cmd command) error {
-	user, err := s.db.GetUser(context.Background(), s.cfg.UserName)
-	if err != nil {
-		return err
-	}
-
+func handlerListFeedFollows(s *state, cmd command, user database.GatorUser) error {
 	fFollows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("couldn't get feed follows: %w", err)
