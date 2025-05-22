@@ -11,3 +11,5 @@ go run . follow "https://hnrss.org/newest"
 go run . following
 go run . login Jim
 go run . following
+go run . unfollow "https://hnrss.org/newest"
+go run . following
