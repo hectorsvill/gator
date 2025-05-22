@@ -58,3 +58,24 @@ func handlerListFeedFollows(s *state, cmd command, user database.GatorUser) erro
 func printFeedFollow(userName, feedName string) {
 	fmt.Printf("* user: %s\n* feedname: %s\n", userName, feedName)
 }
+
+func handlerDeleteFeedFollowByUserAndFeed(s *state, cmd command, user database.GatorUser) error {
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf("usage: %v <url>", cmd.Name)
+	}
+	feedUrl := cmd.Args[0]
+	feed, err := s.db.GetFeedByURL(context.Background(), feedUrl)
+	if err != nil {
+		return err
+	}
+
+	err = s.db.DeleteFeedFollowByUserAndFeed(context.Background(), database.DeleteFeedFollowByUserAndFeedParams{
+		UserID: user.ID,
+		FeedID: feed.ID,
+	})
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

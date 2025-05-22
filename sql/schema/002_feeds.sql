@@ -10,3 +10,4 @@ CREATE TABLE gator.feeds (
 
 -- +goose Down
 DROP TABLE gator.feeds;
+
