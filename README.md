@@ -14,6 +14,10 @@
 
 ## How to run
 ```
+# clone
+git clone https://github.com/hectorsvill/gator.git
+# Download required modules 
+go mod tidy
 # run 
 go run . reset
 go run . register Jim
