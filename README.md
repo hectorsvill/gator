@@ -8,7 +8,27 @@
 - query and migrate a database (using sqlc and goose, two lightweight tools for typesafe SQL in Go)
 - write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
 
-## [postgresql](https://www.postgresql.org/docs) (mac)
+## How to run
+```
+# run 
+go run . reset
+go run . register Jim
+go run . addfeed "Hacker News RSS" "https://hnrss.org/newest"
+go run . register Andy
+go run . addfeed "Lanes Blog" "https://www.wagslane.dev/index.xml"
+go run . follow "https://hnrss.org/newest"
+go run . following
+go run . login Dwight
+go run . follow "https://hnrss.org/newest"
+go run . following
+go run . login Jim
+go run . following
+go run . unfollow "https://hnrss.org/newest"
+go run . following
+```
+
+
+## Project setup: [postgresql](https://www.postgresql.org/docs) (mac)
 - install 
 ```bash
 # install
