@@ -56,7 +56,7 @@ postgres=# \c gator
 gator=# SELECT version();
 ```
 
-## [goose](https://github.com/pressly/goose) setup 
+## Project setup: [goose](https://github.com/pressly/goose) 
 ```bash
 # install goose
 go install github.com/pressly/goose/v3/cmd/goose@latest
@@ -73,7 +73,7 @@ sql/schema/001_gator.sql
 * [002_feeds.sql](https://github.com/hectorsvill/gator/blob/main/sql/schema/002_feeds.sql)
 * [003_feed_follows.sql](https://github.com/hectorsvill/gator/blob/main/sql/schema/003_feed_follows.sql)
 
-- run migrations
+### run migrations
 ```
 goose postgres <connection_string> up
 goose postgres <connection_string> down
@@ -89,7 +89,7 @@ psql gator
 {"db_url":"postgres://<user_name>:@localhost:5432/gator?sslmode=disable"}
 ```
 
-## [sqlc](https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html)
+## Project setup: [sqlc](https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html)
 
 ```bash 
 # install 
