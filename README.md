@@ -1,5 +1,5 @@
 # [in progress] gator - gator is a RSS feed aggregator
-## MVP
+## MVP ( v 0.1.0 )
 - [x] Add RSS feeds from across the internet to be collected
 - [x] Store the collected posts in a PostgreSQL database
 - [x] Follow and unfollow RSS feeds that other users have added
@@ -7,6 +7,10 @@
 - [x] integrate a Go application with a PostgreSQL database
 - [x] query and migrate a database (using sqlc and goose, two lightweight tools for typesafe SQL in Go)
 - [ ] write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
+## MVP (v 0.2.0)
+- [ ] convert to micro service
+- [ ] implement gRPC
+- [ ] implement a REST API
 
 ## How to run
 ```
