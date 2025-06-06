@@ -1,5 +1,5 @@
 -- +goose Up
-CREATE TABLE gator.feed_follows (
+CREATE TABLE IF NOT EXISTS gator.feed_follows (
     id UUID PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,

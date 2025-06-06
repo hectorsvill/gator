@@ -1,5 +1,5 @@
 -- +goose Up
-CREATE SCHEMA gator;
+CREATE SCHEMA IF NOT EXISTS gator;
 
 CREATE TABLE gator.users (
     id UUID PRIMARY KEY,
