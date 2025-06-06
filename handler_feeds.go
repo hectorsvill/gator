@@ -40,6 +40,7 @@ func handlerAddFeed(s *state, cmd command, user database.GatorUser) error {
 		Url:       url,
 		UserID:    id,
 	})
+
 	if err != nil {
 		return fmt.Errorf("couldn't create feed: %w", err)
 	}

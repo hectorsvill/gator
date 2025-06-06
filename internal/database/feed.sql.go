@@ -145,6 +145,27 @@ func (q *Queries) GetFeedNameUrlUser(ctx context.Context) ([]GetFeedNameUrlUserR
 	return items, nil
 }
 
+const getNextFeedToFetch = `-- name: GetNextFeedToFetch :one
+SELECT id, created_at, updated_at, name, url, last_fetched_at, user_id from gator.feeds
+ORDER BY last_fetched_at ASC NULLS FIRST
+LIMIT 1
+`
+
+func (q *Queries) GetNextFeedToFetch(ctx context.Context) (GatorFeed, error) {
+	row := q.db.QueryRowContext(ctx, getNextFeedToFetch)
+	var i GatorFeed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.Url,
+		&i.LastFetchedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const markFeedFetched = `-- name: MarkFeedFetched :exec
 UPDATE gator.feeds 
 SET last_fetched_at = NOW(), updated_at = NOW()
