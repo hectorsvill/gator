@@ -13,3 +13,4 @@ go run . login Jim
 go run . following
 go run . unfollow "https://hnrss.org/newest"
 go run . following
+ go run . scrapeF

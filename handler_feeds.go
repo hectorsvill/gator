@@ -106,7 +106,7 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	}
 
 	printFeed(feed, user)
-	fmt.Println("Feed scrapped successfully:")
+	fmt.Println("Feed scraped successfully:")
 
 	return nil
 }
