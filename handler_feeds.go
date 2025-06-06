@@ -94,3 +94,19 @@ func printFeed(feed database.GatorFeed, user database.GatorUser) {
 	fmt.Printf("* User: %s\n", user.Name)
 
 }
+
+func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
+	if len(cmd.Args) != 0 {
+		return fmt.Errorf("usage: %v scrapef\nsrape next feed", cmd.Name)
+	}
+
+	feed, err := s.db.GetNextFeedToFetch(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't create feed: %w", err)
+	}
+
+	printFeed(feed, user)
+	fmt.Println("Feed scrapped successfully:")
+
+	return nil
+}

@@ -48,6 +48,7 @@ func main() {
 	cmds.register("follow", middlewareLoggedIn(handlerFollow))
 	cmds.register("following", middlewareLoggedIn(handlerListFeedFollows))
 	cmds.register("unfollow", middlewareLoggedIn(handlerDeleteFeedFollowByUserAndFeed))
+	cmds.register("scrapeF", middlewareLoggedIn(handlerScrapeFeed))
 
 	if len(os.Args) < 2 {
 		log.Print("Usage: cli <command> [args...]")
