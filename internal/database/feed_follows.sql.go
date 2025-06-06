@@ -84,7 +84,6 @@ func (q *Queries) DeleteFeedFollowByUserAndFeed(ctx context.Context, arg DeleteF
 
 const getFeedFollowsForUser = `-- name: GetFeedFollowsForUser :many
 
-
 SELECT
     gator.feed_follows.feed_id,
     gator.feed_follows.user_id,
