@@ -169,10 +169,10 @@ func (q *Queries) GetNextFeedToFetch(ctx context.Context) (GatorFeed, error) {
 const markFeedFetched = `-- name: MarkFeedFetched :exec
 UPDATE gator.feeds 
 SET last_fetched_at = NOW(), updated_at = NOW()
-WHERE id = $1
+WHERE url = $1
 `
 
-func (q *Queries) MarkFeedFetched(ctx context.Context, id uuid.UUID) error {
-	_, err := q.db.ExecContext(ctx, markFeedFetched, id)
+func (q *Queries) MarkFeedFetched(ctx context.Context, url string) error {
+	_, err := q.db.ExecContext(ctx, markFeedFetched, url)
 	return err
 }
