@@ -10,14 +10,23 @@ import (
 	"github.com/hectorsvill/gator/internal/database"
 )
 
-func handlerAgg(s *state, cmd command) error {
-	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
-	if err != nil {
-		return fmt.Errorf("couldn't fetch feed: %w", err)
+func handlerAgg(s *state, cmd command, user database.GatorUser) error {
+	if len(cmd.Args) < 1 || len(cmd.Args) > 2 {
+		return fmt.Errorf("usage: %v <Time between request>", cmd.Name)
 	}
 
-	fmt.Printf("Feed: %+v\n", feed.Channel)
-	return nil
+	sleepTime, err := time.ParseDuration(cmd.Args[0])
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Collectinng Feeds every %v\n", sleepTime)
+
+	ticker := time.NewTicker(sleepTime)
+	for ;;<-ticker.C {
+		print("here")
+		handlerScrapeFeed(s, command{}, user)
+	}
 }
 
 func handlerAddFeed(s *state, cmd command, user database.GatorUser) error {
@@ -90,6 +99,8 @@ func printFeed(feed database.GatorFeed, user database.GatorUser) {
 
 }
 
+
+
 func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	if len(cmd.Args) != 0 {
 		return fmt.Errorf("usage: %v scrapef\nsrape next feed", cmd.Name)
@@ -99,7 +110,6 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	if err != nil {
 		return fmt.Errorf("couldn't create feed: %w", err)
 	}
-
 
 	feed, err = s.db.MarkFeedFetched(context.Background(), feed.ID)
 	if err != nil {
@@ -115,7 +125,7 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	for _, item := range rssData.Channel.Item {
 		println(item.Title)
 	}
-	
+
 	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssData.Channel.Item))
 
 	return nil
