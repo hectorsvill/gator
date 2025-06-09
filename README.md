@@ -34,6 +34,7 @@ go run . following
 go run . unfollow "https://hnrss.org/newest"
 go run . following
 go run . scrapeF
+go run . agg 24h
 ```
 ## Project setup: [postgresql](https://www.postgresql.org/docs) (mac)
 - install 

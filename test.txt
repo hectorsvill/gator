@@ -14,8 +14,9 @@ go run . following
 go run . unfollow "https://hnrss.org/newest"
 go run . following
 go run . scrapeF
+go run . agg 24h
 
-#
+# v2 
 go run . reset
 go run . register Jim
 go run . addfeed "Hacker News RSS" "https://hnrss.org/newest"
@@ -35,6 +36,9 @@ go run . follow
 
 
 go run . following
+run . scrapeF
+go run . agg 24h
+
 
 
 
