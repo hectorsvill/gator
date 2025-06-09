@@ -1,17 +1,12 @@
 -- name: CreateFeed :one
-INSERT INTO gator.feeds (id, created_at, updated_at, name, url, user_id)
-VALUES (
-    $1,
-    $2,
-    $3,
-    $4,
-    $5,
-    $6
-)
+INSERT INTO gator.feeds 
+(id, created_at, updated_at, name, url, user_id)
+VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING *;
 
 -- name: GetFeedNameUrlUser :many
-SELECT name, url, user_id FROM gator.feeds;
+SELECT name, url, user_id 
+FROM gator.feeds;
 
 -- name: DeleteFeeds :exec
 DELETE FROM gator.feeds;
@@ -23,10 +18,12 @@ SELECT name FROM gator.feeds;
 SELECT * FROM gator.feeds
 WHERE url = $1;
 
--- name: MarkFeedFetched :exec
+-- name: MarkFeedFetched :one
 UPDATE gator.feeds 
-SET last_fetched_at = NOW(), updated_at = NOW()
-WHERE url = $1;
+SET last_fetched_at = NOW(), 
+updated_at = NOW()
+WHERE id = $1
+RETURNING *;
 
 -- name: GetNextFeedToFetch :one
 SELECT * from gator.feeds
