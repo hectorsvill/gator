@@ -33,9 +33,8 @@ go run . login Jim
 go run . following
 go run . unfollow "https://hnrss.org/newest"
 go run . following
+go run . scrapeF
 ```
-
-
 ## Project setup: [postgresql](https://www.postgresql.org/docs) (mac)
 - install 
 ```bash
@@ -83,8 +82,8 @@ sql/schema/001_gator.sql
 
 ### run migrations
 ```
-goose postgres <connection_string> up
-goose postgres <connection_string> down
+goose -dir ./sql/schema postgres <connection_string> up
+goose -dir ./sql/schema postgres <connection_string> down
 ```
 - view 
 ```bash

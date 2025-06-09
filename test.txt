@@ -13,4 +13,35 @@ go run . login Jim
 go run . following
 go run . unfollow "https://hnrss.org/newest"
 go run . following
- go run . scrapeF
+go run . scrapeF
+
+#
+go run . reset
+go run . register Jim
+go run . addfeed "Hacker News RSS" "https://hnrss.org/newest"
+
+go run . addfeed "Lanes Blog" "https://www.wagslane.dev/index.xml"
+go run . follow "https://hnrss.org/newest"
+
+go run . follow "https://www.wagslane.dev/index.xml"
+go run . addfeed "geohot rss" "https://geohot.github.io/blog/feed.xml"
+go run . follow "https://geohot.github.io/blog/feed.xml"
+
+go run . addfeed "samaltman"  "http://blog.samaltman.com/posts.atom"
+go run . follow "http://blog.samaltman.com/posts.atom"
+
+go run . addfeed ""  
+go run . follow 
+
+
+go run . following
+
+
+
+
+
+go run . unfollow "https://hnrss.org/newest"
+go run . following
+go run . scrapeF
+go run . addfeed "geohot rss" "https://geohot.github.io/blog/feed.xml"
+go run . follow "https://geohot.github.io/blog/feed.xml"

@@ -166,13 +166,25 @@ func (q *Queries) GetNextFeedToFetch(ctx context.Context) (GatorFeed, error) {
 	return i, err
 }
 
-const markFeedFetched = `-- name: MarkFeedFetched :exec
+const markFeedFetched = `-- name: MarkFeedFetched :one
 UPDATE gator.feeds 
-SET last_fetched_at = NOW(), updated_at = NOW()
-WHERE url = $1
+SET last_fetched_at = NOW(), 
+updated_at = NOW()
+WHERE id = $1
+RETURNING id, created_at, updated_at, name, url, last_fetched_at, user_id
 `
 
-func (q *Queries) MarkFeedFetched(ctx context.Context, url string) error {
-	_, err := q.db.ExecContext(ctx, markFeedFetched, url)
-	return err
+func (q *Queries) MarkFeedFetched(ctx context.Context, id uuid.UUID) (GatorFeed, error) {
+	row := q.db.QueryRowContext(ctx, markFeedFetched, id)
+	var i GatorFeed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.Url,
+		&i.LastFetchedAt,
+		&i.UserID,
+	)
+	return i, err
 }

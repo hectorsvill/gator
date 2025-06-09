@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -27,35 +28,29 @@ func handlerAddFeed(s *state, cmd command, user database.GatorUser) error {
 	name := cmd.Args[0]
 	url := cmd.Args[1]
 
-	id, err := s.db.GetID(context.Background(), s.cfg.UserName)
-	if err != nil {
-		return fmt.Errorf("couldn't get id: %w", err)
-	}
-
 	feed, err := s.db.CreateFeed(context.Background(), database.CreateFeedParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
 		Name:      name,
 		Url:       url,
-		UserID:    id,
+		UserID:    user.ID,
 	})
 
 	if err != nil {
-		return fmt.Errorf("couldn't create feed: %w", err)
+		return fmt.Errorf("couldn't CreateFeed: %w", err)
 	}
 
 	ff, err := s.db.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
-		ID: uuid.New(),
+		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
-		UserID: feed.UserID,
-		FeedID: feed.ID,
-
+		UserID:    user.ID,
+		FeedID:    feed.ID,
 	})
 
 	if err != nil {
-		return fmt.Errorf("couldn't create feed follow %w",  err)
+		return fmt.Errorf("couldn't create feed follow %w", err)
 	}
 
 	fmt.Println("Feed created succesfully:")
@@ -105,8 +100,23 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 		return fmt.Errorf("couldn't create feed: %w", err)
 	}
 
-	printFeed(feed, user)
-	fmt.Println("Feed scraped successfully:")
+
+	feed, err = s.db.MarkFeedFetched(context.Background(), feed.ID)
+	if err != nil {
+		return fmt.Errorf("error marking feed: %w", err)
+	}
+	println(feed.Name)
+	// fetch feed with url
+	rssData, err := fetchFeed(context.Background(), feed.Url)
+	if err != nil {
+		return fmt.Errorf("error fetching feed: %w", err)
+	}
+
+	for _, item := range rssData.Channel.Item {
+		println(item.Title)
+	}
+	
+	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssData.Channel.Item))
 
 	return nil
 }
