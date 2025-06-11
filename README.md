@@ -1,12 +1,12 @@
-# [in progress] gator - gator is a RSS feed aggregator
+# gator - gator is a RSS feed aggregator
 ## MVP ( v 0.1.0 )
 - [x] Add RSS feeds from across the internet to be collected
 - [x] Store the collected posts in a PostgreSQL database
 - [x] Follow and unfollow RSS feeds that other users have added
-- [ ] View summaries of the aggregated posts in the terminal, with a link to the full post
+- [X] View summaries of the aggregated posts in the terminal, with a link to the full post
 - [x] integrate a Go application with a PostgreSQL database
 - [x] query and migrate a database (using sqlc and goose, two lightweight tools for typesafe SQL in Go)
-- [ ] write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
+- [X] write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
 ## MVP (v 0.2.0)
 - [ ] convert to micro service
 - [ ] implement gRPC 
@@ -19,22 +19,24 @@ git clone https://github.com/hectorsvill/gator.git
 # Download required modules 
 go mod tidy
 # run 
-go run . reset
-go run . register Jim
-go run . addfeed "Hacker News RSS" "https://hnrss.org/newest"
-go run . register Andy
-go run . addfeed "Lanes Blog" "https://www.wagslane.dev/index.xml"
-go run . follow "https://hnrss.org/newest"
-go run . following
-go run . login Dwight
-go run . follow "https://hnrss.org/newest"
-go run . following
-go run . login Jim
-go run . following
-go run . unfollow "https://hnrss.org/newest"
-go run . following
-go run . scrapeF
-go run . agg 24h
+go build .
+./gator reset
+./gator register Jim
+./gator addfeed "Hacker News RSS" "https://hnrss.org/newest"
+./gator register Andy
+./gator addfeed "Lanes Blog" "https://www.wagslane.dev/index.xml"
+./gator follow "https://hnrss.org/newest"
+./gator following
+./gator login Dwight
+./gator follow "https://hnrss.org/newest"
+./gator following
+./gator login Jim
+./gator following
+./gator unfollow "https://hnrss.org/newest"
+./gator following
+./gator scrapeF
+./gator agg 24h
+./gator browse 2
 ```
 ## Project setup: [postgresql](https://www.postgresql.org/docs) (mac)
 - install 
