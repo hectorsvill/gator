@@ -17,8 +17,8 @@ type GatorFeed struct {
 	UpdatedAt     time.Time
 	Name          string
 	Url           string
-	LastFetchedAt sql.NullTime
 	UserID        uuid.UUID
+	LastFetchedAt sql.NullTime
 }
 
 type GatorFeedFollow struct {
@@ -27,6 +27,17 @@ type GatorFeedFollow struct {
 	UpdatedAt time.Time
 	UserID    uuid.UUID
 	FeedID    uuid.UUID
+}
+
+type GatorPost struct {
+	ID          uuid.UUID
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	Title       string
+	Description string
+	PublishedAt string
+	FeedID      string
+	UserID      uuid.UUID
 }
 
 type GatorUser struct {

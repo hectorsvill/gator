@@ -13,16 +13,10 @@ import (
 )
 
 const createFeed = `-- name: CreateFeed :one
-INSERT INTO gator.feeds (id, created_at, updated_at, name, url, user_id)
-VALUES (
-    $1,
-    $2,
-    $3,
-    $4,
-    $5,
-    $6
-)
-RETURNING id, created_at, updated_at, name, url, last_fetched_at, user_id
+INSERT INTO gator.feeds 
+(id, created_at, updated_at, name, url, user_id)
+VALUES ($1, $2, $3, $4, $5, $6)
+RETURNING id, created_at, updated_at, name, url, user_id, last_fetched_at
 `
 
 type CreateFeedParams struct {
@@ -50,8 +44,8 @@ func (q *Queries) CreateFeed(ctx context.Context, arg CreateFeedParams) (GatorFe
 		&i.UpdatedAt,
 		&i.Name,
 		&i.Url,
-		&i.LastFetchedAt,
 		&i.UserID,
+		&i.LastFetchedAt,
 	)
 	return i, err
 }
@@ -93,7 +87,7 @@ func (q *Queries) GetAllFeedNames(ctx context.Context) ([]string, error) {
 }
 
 const getFeedByURL = `-- name: GetFeedByURL :one
-SELECT id, created_at, updated_at, name, url, last_fetched_at, user_id FROM gator.feeds
+SELECT id, created_at, updated_at, name, url, user_id, last_fetched_at FROM gator.feeds
 WHERE url = $1
 `
 
@@ -106,14 +100,15 @@ func (q *Queries) GetFeedByURL(ctx context.Context, url string) (GatorFeed, erro
 		&i.UpdatedAt,
 		&i.Name,
 		&i.Url,
-		&i.LastFetchedAt,
 		&i.UserID,
+		&i.LastFetchedAt,
 	)
 	return i, err
 }
 
 const getFeedNameUrlUser = `-- name: GetFeedNameUrlUser :many
-SELECT name, url, user_id FROM gator.feeds
+SELECT name, url, user_id 
+FROM gator.feeds
 `
 
 type GetFeedNameUrlUserRow struct {
@@ -146,7 +141,7 @@ func (q *Queries) GetFeedNameUrlUser(ctx context.Context) ([]GetFeedNameUrlUserR
 }
 
 const getNextFeedToFetch = `-- name: GetNextFeedToFetch :one
-SELECT id, created_at, updated_at, name, url, last_fetched_at, user_id from gator.feeds
+SELECT id, created_at, updated_at, name, url, user_id, last_fetched_at from gator.feeds
 ORDER BY last_fetched_at ASC NULLS FIRST
 LIMIT 1
 `
@@ -160,8 +155,8 @@ func (q *Queries) GetNextFeedToFetch(ctx context.Context) (GatorFeed, error) {
 		&i.UpdatedAt,
 		&i.Name,
 		&i.Url,
-		&i.LastFetchedAt,
 		&i.UserID,
+		&i.LastFetchedAt,
 	)
 	return i, err
 }
@@ -171,7 +166,7 @@ UPDATE gator.feeds
 SET last_fetched_at = NOW(), 
 updated_at = NOW()
 WHERE id = $1
-RETURNING id, created_at, updated_at, name, url, last_fetched_at, user_id
+RETURNING id, created_at, updated_at, name, url, user_id, last_fetched_at
 `
 
 func (q *Queries) MarkFeedFetched(ctx context.Context, id uuid.UUID) (GatorFeed, error) {
@@ -183,8 +178,8 @@ func (q *Queries) MarkFeedFetched(ctx context.Context, id uuid.UUID) (GatorFeed,
 		&i.UpdatedAt,
 		&i.Name,
 		&i.Url,
-		&i.LastFetchedAt,
 		&i.UserID,
+		&i.LastFetchedAt,
 	)
 	return i, err
 }
