@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -23,7 +24,7 @@ func handlerAgg(s *state, cmd command, user database.GatorUser) error {
 	fmt.Printf("Collectinng Feeds every %v\n", sleepTime)
 
 	ticker := time.NewTicker(sleepTime)
-	for ;;<-ticker.C {
+	for ; ; <-ticker.C {
 		print("here")
 		handlerScrapeFeed(s, command{}, user)
 	}
@@ -123,7 +124,6 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	for _, item := range rssData.Channel.Item {
 		println(item.Title)
 
-
 		_, err = s.db.CreatePost(context.Background(), database.CreatePostParams{
 			ID:          uuid.New(),
 			CreatedAt:   time.Now().UTC(),
@@ -138,7 +138,33 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	}
 
 	// log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssData.Channel.Item))
+	return nil
+}
 
+func handlerBrowse(s *state, cmd command, user database.GatorUser) error {
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf("usage: %v <limit count>", cmd.Name)
+	}
+
+	limit := cmd.Args[0]
+	num, err := strconv.ParseInt(limit, 10, 32)
+	if err != nil {
+		return fmt.Errorf("Error: %v", err)
+	}
+
+	posts, err := s.db.GetPostsForUser(context.Background(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit:  int32(num),
+	})
+
+	if err != nil {
+		fmt.Errorf("error getting posts for user: %v", err)
+	}
+
+	for _,post := range posts {
+		println(post.Title)
+		println(post.Description)
+	}
 
 	return nil
 }
