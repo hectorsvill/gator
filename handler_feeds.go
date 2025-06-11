@@ -99,8 +99,6 @@ func printFeed(feed database.GatorFeed, user database.GatorUser) {
 
 }
 
-
-
 func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 	if len(cmd.Args) != 0 {
 		return fmt.Errorf("usage: %v scrapef\nsrape next feed", cmd.Name)
@@ -124,9 +122,23 @@ func handlerScrapeFeed(s *state, cmd command, user database.GatorUser) error {
 
 	for _, item := range rssData.Channel.Item {
 		println(item.Title)
+
+
+		_, err = s.db.CreatePost(context.Background(), database.CreatePostParams{
+			ID:          uuid.New(),
+			CreatedAt:   time.Now().UTC(),
+			UpdatedAt:   time.Now().UTC(),
+			Title:       item.Title,
+			Description: item.Description,
+			PublishedAt: item.PubDate,
+			FeedID:      feed.ID.String(),
+			UserID:      user.ID,
+		})
+		log.Println(err)
 	}
 
-	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssData.Channel.Item))
+	// log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssData.Channel.Item))
+
 
 	return nil
 }

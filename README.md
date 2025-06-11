@@ -9,7 +9,7 @@
 - [ ] write a long-running service that continuously fetches new posts from RSS feeds and stores them in the database
 ## MVP (v 0.2.0)
 - [ ] convert to micro service
-- [ ] implement gRPC
+- [ ] implement gRPC 
 - [ ] implement a REST API
 
 ## How to run
